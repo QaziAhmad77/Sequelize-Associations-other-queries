@@ -1,8 +1,10 @@
 let db = require('../models/index');
 let Employee = db.employee;
 let Contact = db.contact;
+let Education = db.education;
 const {Sequelize, Op} = require("sequelize");
 const employee = require('../models/employee');
+const education = require('../models/education');
 
 module.exports = {
   postEmployee: async (req,res) =>{
@@ -543,7 +545,7 @@ module.exports = {
     try {
       const data = await Employee.restore({
         where: {
-          id: 1
+          id: 4
         },
       });
       res.status(200).send({data});
@@ -576,6 +578,39 @@ module.exports = {
   paranoid8: async (req,res)=>{
     try {
       const data = await Employee.findAll({paranoid: false});
+      res.status(200).send({data});
+    } catch (error) {
+      console.log("Something went wrong");
+      res.send("Something went wrong");
+    }
+  },
+
+  eager1: async (req,res)=>{
+    try {
+      const data = await Employee.findAll({
+        include: [{
+          model: Contact,
+        },{
+          model: Education,
+        }]
+      })
+      res.status(200).send({data});
+    } catch (error) {
+      console.log("Something went wrong");
+      res.send("Something went wrong");
+    }
+  },
+
+  eager2: async (req,res)=>{
+    try {
+      const data = await Employee.findAll({
+        include: {
+          model: Contact,
+          include: {
+            model: Education,
+          }
+        }
+      })
       res.status(200).send({data});
     } catch (error) {
       console.log("Something went wrong");

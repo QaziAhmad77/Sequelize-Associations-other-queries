@@ -22,6 +22,7 @@ db.sequelize = sequelize;
 
 db.contact = require('./contact')(sequelize,DataTypes);
 db.employee = require('./employee')(sequelize,DataTypes);
+db.education = require('./education')(sequelize,DataTypes);
 db.employeeContacts = require('./employeeContact')(sequelize,DataTypes,employee,contact);
 
 // db.employee.hasOne(db.contact,{foreignKey: 'user_id', as: 'contactDetails'});  // if we write "userId" in models instead of user_id then no 
@@ -33,5 +34,8 @@ db.employeeContacts = require('./employeeContact')(sequelize,DataTypes,employee,
 db.employee.belongsToMany(db.contact, {through: db.employeeContacts});
 db.contact.belongsToMany(db.employee, {through: db.employeeContacts});
 
-db.sequelize.sync({ force: false});
+db.employee.belongsToMany(db.education, {through: db.employeeContacts});
+db.education.belongsToMany(db.employee, {through: db.employeeContacts});
+
+db.sequelize.sync({ force: true});
 module.exports = db;

@@ -35,6 +35,7 @@ router.delete('/paranoid5', controller.paranoid5);
 router.delete('/paranoid6', controller.paranoid6);
 router.get('/paranoid7', controller.paranoid7);
 router.get('/paranoid8', controller.paranoid8);
+router.get('/eager1', controller.eager1)
 router.post('/validate', controller.validateUser);
 router.delete('/deleteAll', controller.deleteAll);
 
